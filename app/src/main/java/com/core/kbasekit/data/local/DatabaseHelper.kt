@@ -1,6 +1,5 @@
-package com.core.kbasekit.data.db
+package com.core.kbasekit.data.local
 
-import android.arch.persistence.room.Room
 import android.content.Context
 import com.core.kbasekit.data.db.contact.ContactDao
 import com.core.kbasekit.data.db.user.UserDao

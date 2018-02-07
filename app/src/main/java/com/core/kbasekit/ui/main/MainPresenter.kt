@@ -2,21 +2,16 @@ package com.core.kbasekit.ui.main
 
 import android.Manifest
 import android.content.Context
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.Log
 import com.core.kbasekit.ui.base.BasePresenter
 import android.provider.CallLog
-import android.system.Os
-import com.core.kbasekit.data.db.AppDataBase
-import com.core.kbasekit.data.db.DatabaseHelper
+import com.core.kbasekit.data.local.DatabaseHelper
 import com.core.kbasekit.data.db.contact.Contact
 import com.core.kbasekit.data.db.user.User
 import com.core.kbasekit.data.db.user.UserDao
 import com.core.kbasekit.util.LogKit
 import com.core.kbasekit.util.PermissionCheck
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 import kotlin.collections.ArrayList

@@ -19,7 +19,6 @@ import dagger.internal.DaggerCollections
 */
 class BaseApp : MultiDexApplication() {
 
-
     companion object {
         operator fun get(context: Context): BaseApp {
             return context.applicationContext as BaseApp
