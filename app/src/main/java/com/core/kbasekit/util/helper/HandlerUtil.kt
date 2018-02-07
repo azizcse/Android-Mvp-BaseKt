@@ -58,9 +58,9 @@ class HandlerUtil {
         backEndHandler?.removeCallbacks(runnable)
     }
 
-    fun postBackground(runnable : Runnable, tile : Long){
+    fun postBackground(runnable : Runnable, time : Long){
         removeBackground(runnable)
-        backEndHandler?.postDelayed(runnable, tile)
+        backEndHandler?.postDelayed(runnable, time)
     }
 
 }
