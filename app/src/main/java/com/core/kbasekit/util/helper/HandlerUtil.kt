@@ -19,13 +19,13 @@ import android.os.Looper
 
 class HandlerUtil {
 
-    private var handler: Handler? = null
+    private var foregroundHandler: Handler? = null
     private var handlerThread: HandlerThread? = null
     private var backEndHandler: Handler? = null
 
 
     private constructor() {
-        handler = Handler(Looper.getMainLooper())
+        foregroundHandler = Handler(Looper.getMainLooper())
         handlerThread = HandlerThread("back_end", Thread.MAX_PRIORITY)
         handlerThread?.start()
         backEndHandler = Handler(handlerThread?.looper)
@@ -42,11 +42,11 @@ class HandlerUtil {
     }
 
     fun postForeground(runnable: Runnable, time: Long) {
-        handler?.postDelayed(runnable, time)
+        foregroundHandler?.postDelayed(runnable, time)
     }
 
     fun postForeground(runnable: Runnable) {
-        handler?.post(runnable)
+        foregroundHandler?.post(runnable)
     }
 
     fun postBackground(runnable : Runnable){
