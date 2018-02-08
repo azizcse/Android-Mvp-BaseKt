@@ -11,6 +11,7 @@ import com.core.kbasekit.data.db.user.User
 import com.core.kbasekit.data.db.user.UserDao
 import com.core.kbasekit.util.LogKit
 import com.core.kbasekit.util.PermissionCheck
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
@@ -88,6 +89,21 @@ class MainPresenter : BasePresenter<MainMvpView> {
         Thread(Runnable {
             userDao.delete(users)
         }).start()
+    }
+
+
+
+    private fun delete(){
+        getObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+    }
+
+    private fun getObservable(): Observable<Boolean>{
+        return Observable.just(true).ambWith {
+
+        }
     }
 
 
