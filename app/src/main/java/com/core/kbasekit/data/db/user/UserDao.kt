@@ -21,9 +21,12 @@ import io.reactivex.Flowable
 @Dao
 interface UserDao {
     @Insert
-    fun insert(user : User)
+    fun insert(user: User)
 
     @Query("Select * from User")
-    fun getUsers():Flowable<List<User>>
+    fun getUsers(): Flowable<List<User>>
+
+    @Delete
+    fun delete(users: List<User>)
 
 }

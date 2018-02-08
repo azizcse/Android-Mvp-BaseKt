@@ -29,7 +29,9 @@ import com.squareup.otto.Subscribe
 
 class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
 
-    lateinit var button : Button
+    lateinit var insertButton : Button
+    lateinit var eventBusButton : Button
+    lateinit var deleteButton : Button
     lateinit var recyclerView : RecyclerView
     lateinit var mainAdapter : MainAdapter
 
@@ -44,10 +46,14 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
 
 
     override fun startUi() {
-        button = findViewById(R.id.hello_text)
+        insertButton = findViewById(R.id.insert_button)
+        eventBusButton = findViewById(R.id.event_bus)
+        deleteButton = findViewById(R.id.delete)
         recyclerView = findViewById(R.id.recyclerView)
         mainAdapter = MainAdapter(this)
-        button.setOnClickListener(this)
+        insertButton.setOnClickListener(this)
+        eventBusButton.setOnClickListener(this)
+        deleteButton.setOnClickListener(this)
         initRecyclerView()
     }
 
@@ -62,26 +68,30 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
 
 
     override fun onClick(v: View?) {
-        presenter?.insertUser()
-        /*var event = BaseEvent()
-        event.name = "Faisal"
+        if(v?.id == R.id.insert_button) {
+            presenter?.insertUser()
+        }else if(v?.id == R.id.event_bus){
+            var event = BaseEvent()
+            event.name = "Event message"
+            BusProvider.getBus().post(event)
+        }else if(v?.id == R.id.delete){
+            deleteUser()
+        }
+    }
 
-        BusProvider.getBus().post(event)*/
+    private fun deleteUser(){
+        var users = mainAdapter.getItems()
+        presenter?.deleteUsers(users)
     }
 
     override fun onUserFound(users : List<User>) {
-        Toast.makeText(this,"User List = ${users.size}",Toast.LENGTH_LONG).show()
+       // Toast.makeText(this,"User List = ${users.size}",Toast.LENGTH_LONG).show()
+        mainAdapter.clear()
         mainAdapter.addItems(users)
     }
 
     override fun onDbPrepare() {
         presenter?.getUsers()
-    }
-
-    var broadcastReceiver = object : BroadcastReceiver(){
-        override fun onReceive(context: Context?, intent: Intent?) {
-
-        }
     }
 
     override fun onResume() {
@@ -94,9 +104,25 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
         BusProvider.getBus().unregister(this)
     }
 
+    /**
+     * Event bus event receiver method
+     */
+
+
     @Subscribe
-    fun receiveMessage(baseEvent : BaseEvent){
+    fun receiveEventMessage(baseEvent : BaseEvent){
         Toast.makeText(this,"Name = "+baseEvent.name,Toast.LENGTH_LONG).show()
+    }
+
+
+    /**
+     * Broadcast receiver
+     */
+
+    var broadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+
+        }
     }
 
 }

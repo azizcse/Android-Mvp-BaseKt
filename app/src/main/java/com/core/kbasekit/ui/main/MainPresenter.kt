@@ -63,6 +63,10 @@ class MainPresenter : BasePresenter<MainMvpView> {
         }).start()
     }
 
+
+    /**
+     * Load data by Rx
+     */
     fun getUsers(){
         getDisposable()?.add(userDao.getUsers()
                 .subscribeOn(Schedulers.io())
@@ -78,27 +82,16 @@ class MainPresenter : BasePresenter<MainMvpView> {
     private fun handleError(error: Throwable) {
     }
 
-    fun loadData() {
+
+
+    fun deleteUsers(users: List<User>) {
         Thread(Runnable {
-            kotlin.run {
-                Log.e("User_value", "message 1")
-                Thread.sleep(1000)
-                Log.e("User_value", "message 2")
-
-                //getMvpView()!!.onUserFound()
-            }
+            userDao.delete(users)
         }).start()
-        Log.e("User_value", "message 0")
     }
 
 
-    var thread: Thread = Thread() {
-        Log.e("User_value", "message 1")
-        Thread.sleep(1000)
-        Log.e("User_value", "message 2")
-    }
-
-
+/*
     fun getCallDetails(context: Context): List<Contact> {
 
         val contactList: ArrayList<Contact> = arrayListOf()
@@ -127,12 +120,34 @@ class MainPresenter : BasePresenter<MainMvpView> {
                 }
 
                 val contact = Contact(phNumber, callDate, callDayTime.toString(), callDuration, dir!!)
-                 contactList.add(contact)
+                contactList.add(contact)
             }
             cursor.close()
         }
         return contactList
+    }*/
+
+    fun loadData() {
+        Thread(Runnable {
+            kotlin.run {
+                Log.e("User_value", "message 1")
+                Thread.sleep(1000)
+                Log.e("User_value", "message 2")
+
+                //getMvpView()!!.onUserFound()
+            }
+        }).start()
+        Log.e("User_value", "message 0")
     }
+
+
+    var thread: Thread = Thread() {
+        Log.e("User_value", "message 1")
+        Thread.sleep(1000)
+        Log.e("User_value", "message 2")
+    }
+
+
 
 }
 
