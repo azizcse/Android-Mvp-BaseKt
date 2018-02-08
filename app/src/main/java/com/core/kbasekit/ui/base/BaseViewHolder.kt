@@ -17,5 +17,5 @@ import android.view.View
 */
 
 open abstract class BaseViewHolder<T>(itemView : View ?) : RecyclerView.ViewHolder(itemView) {
-    open abstract fun bind(item : T, context :Context);
+    open abstract fun bind(item : T);
 }

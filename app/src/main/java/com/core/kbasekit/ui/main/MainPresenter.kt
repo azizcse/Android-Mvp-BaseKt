@@ -41,7 +41,7 @@ class MainPresenter : BasePresenter<MainMvpView> {
         Thread(Runnable {
             run {
                 userDao = DatabaseHelper.getInstance(context).provideUserDao()
-                getMvpView()?.finish()
+                getMvpView()?.onDbPrepare()
             }
         }).start()
 
@@ -61,7 +61,6 @@ class MainPresenter : BasePresenter<MainMvpView> {
 
             }
         }).start()
-       // getUsers()
     }
 
     fun getUsers(){
@@ -69,13 +68,11 @@ class MainPresenter : BasePresenter<MainMvpView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse, this::handleError))
-
-
     }
 
     private fun handleResponse(androidList: List<User>) {
         LogKit.v("User_value", "List size = ${androidList.size}")
-        getMvpView()?.showLog(androidList)
+        getMvpView()?.onUserFound(androidList)
     }
 
     private fun handleError(error: Throwable) {
@@ -88,7 +85,7 @@ class MainPresenter : BasePresenter<MainMvpView> {
                 Thread.sleep(1000)
                 Log.e("User_value", "message 2")
 
-                //getMvpView()!!.showLog()
+                //getMvpView()!!.onUserFound()
             }
         }).start()
         Log.e("User_value", "message 0")

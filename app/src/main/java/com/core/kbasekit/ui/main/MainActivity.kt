@@ -27,7 +27,7 @@ import com.squareup.otto.Subscribe
 *  ****************************************************************************
 */
 
-class SplashActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
+class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
 
     lateinit var button : Button
     lateinit var recyclerView : RecyclerView
@@ -62,18 +62,19 @@ class SplashActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
 
 
     override fun onClick(v: View?) {
-        //presenter?.insertUser()
-        var event = BaseEvent()
+        presenter?.insertUser()
+        /*var event = BaseEvent()
         event.name = "Faisal"
 
-        BusProvider.getBus().post(event)
+        BusProvider.getBus().post(event)*/
     }
 
-    override fun showLog(users : List<User>) {
+    override fun onUserFound(users : List<User>) {
         Toast.makeText(this,"User List = ${users.size}",Toast.LENGTH_LONG).show()
+        mainAdapter.addItems(users)
     }
 
-    override fun finish() {
+    override fun onDbPrepare() {
         presenter?.getUsers()
     }
 

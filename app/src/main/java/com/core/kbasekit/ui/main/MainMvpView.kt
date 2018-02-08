@@ -16,6 +16,6 @@ import com.core.kbasekit.ui.base.MvpView
 */
 
 interface MainMvpView : MvpView {
-    fun showLog(users : List<User>)
-    fun finish()
+    fun onUserFound(users : List<User>)
+    fun onDbPrepare()
 }

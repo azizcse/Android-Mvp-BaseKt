@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.core.kbasekit.R
 import com.core.kbasekit.data.db.contact.Contact
 import com.core.kbasekit.data.db.ex.Model
+import com.core.kbasekit.data.db.user.User
 import com.core.kbasekit.ui.base.BaseAdapter
 import com.core.kbasekit.ui.base.BaseViewHolder
 
@@ -25,54 +26,34 @@ import com.core.kbasekit.ui.base.BaseViewHolder
 *  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>  
 *  ****************************************************************************
 */
-open class MainAdapter : BaseAdapter<Model>{
+open class MainAdapter : BaseAdapter<User>{
     public var mContext : Context? = null
     constructor(context: Context){
         mContext = context
     }
-    public fun showToast(){
-        Toast.makeText(mContext,"Hello", Toast.LENGTH_LONG).show()
+
+    override fun isEqual(leftItem: User, rightItem: User): Boolean {
+        return leftItem.id.equals(rightItem.id);
     }
 
-    override fun isEqual(leftItem: Model, rightItem: Model): Boolean {
-        return false;
-    }
-
-    override fun newViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<Model> {
+    override fun newViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<User> {
         val view = LayoutInflater.from(mContext).inflate(R.layout.item_layout, parent, false)
-
         return SimpleViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder<Model>?, position: Int) {
-        var list : ArrayList<String> = arrayListOf()
-        list.add("Aziz")
-        list.add("Aziz 1")
-        list.add("Aziz 2")
-        list.add("Aziz 3")
-        list.add("Aziz 4")
-        var model = Model(list)
-        holder?.bind(model, mContext!!)
+    override fun onBindViewHolder(holder: BaseViewHolder<User>?, position: Int) {
+        val user = getItem(position)
+        holder?.bind(user)
     }
 
-    override fun getItemCount(): Int {
-        return 1
-    }
+    private inner class SimpleViewHolder(itemView : View) : BaseViewHolder<User>(itemView){
+       var nameTv : TextView
 
-    class SimpleViewHolder(itemView : View) : BaseViewHolder<Model>(itemView){
-        val linearLayout : LinearLayout = itemView.findViewById(R.id.parentViewHolder)
-
-        override fun bind(item: Model, context: Context) {
-            var list = item.list
-            var textView: TextView? = null
-            val inflater = LayoutInflater.from(context)
-            linearLayout.removeAllViews()
-
-            for(item in list){
-                textView = inflater.inflate(R.layout.item_name_2, linearLayout, false) as TextView
-
-                textView.text = item
-                linearLayout.addView(textView)
-            }}
+        init {
+            nameTv = itemView.findViewById(R.id.name);
+        }
+        override fun bind(item: User) {
+            nameTv.text = item.name;
+        }
     }
 }

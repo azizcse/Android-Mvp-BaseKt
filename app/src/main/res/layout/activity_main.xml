@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.core.kbasekit.ui.main.SplashActivity">
+    tools:context="com.core.kbasekit.ui.main.MainActivity">
 
     <Button
         android:id="@+id/hello_text"
