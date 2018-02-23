@@ -22,7 +22,7 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V>> : AppCompatActivi
     abstract val getLayoutId: Int
     abstract val getMenuId: Int
     abstract val getMvpView: V
-    private val defaultValue : Int = -1
+    private val defaultValue : Int = 0
 
     internal abstract fun getPresenter() : P
 

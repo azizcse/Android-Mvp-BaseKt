@@ -14,6 +14,8 @@ import com.core.kbasekit.event.BaseEvent
 import com.core.kbasekit.ui.base.BaseActivity
 import com.core.kbasekit.util.lib.BusProvider
 import com.squareup.otto.Subscribe
+import kotlinx.coroutines.experimental.selects.select
+import org.jetbrains.anko.*
 
 
 /*
@@ -70,6 +72,7 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
     override fun onClick(v: View?) {
         if(v?.id == R.id.insert_button) {
             presenter?.insertUser()
+            //showAlert()
         }else if(v?.id == R.id.event_bus){
             var event = BaseEvent()
             event.name = "Event message"
@@ -112,6 +115,11 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
     @Subscribe
     fun receiveEventMessage(baseEvent : BaseEvent){
         Toast.makeText(this,"Name = "+baseEvent.name,Toast.LENGTH_LONG).show()
+    }
+
+    @Subscribe
+    fun receiveEventMessage2(baseEvent : BaseEvent){
+        Toast.makeText(this,"Name 2 = "+baseEvent.name,Toast.LENGTH_LONG).show()
     }
 
 
