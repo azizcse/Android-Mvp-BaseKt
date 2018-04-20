@@ -1,21 +1,34 @@
 package com.core.kbasekit.ui.anko
 
 import android.content.DialogInterface
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import com.core.kbasekit.R
 import com.core.kbasekit.ui.base.BaseActivity
 import org.jetbrains.anko.*
-import org.jetbrains.anko.appcompat.v7.Appcompat
 
-class AnkoActivity : BaseActivity<AnkoMvpView, AnkoPresenter>(),AnkoMvpView {
+/*
+*  ****************************************************************************
+*  * Created by : Md. Azizul Islam on 1/2/2018 at 1:19 PM.
+*  * Email : azizul@w3engineers.com
+*  *
+*  * Last edited by : Md. Imran Hossain on 4/20/2018.
+*  *
+*  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>
+*  ****************************************************************************
+*/
+
+class AnkoActivity : BaseActivity<AnkoMvpView, AnkoPresenter>(), AnkoMvpView {
 
     override val getLayoutId: Int
         get() = R.layout.activity_anko
+
+    override val getToolbarId: Int
+        get() = R.id.toolbar
+
     override val getMenuId: Int
         get() = 0
+
     override val getMvpView: AnkoMvpView
         get() = this
 
@@ -29,42 +42,46 @@ class AnkoActivity : BaseActivity<AnkoMvpView, AnkoPresenter>(),AnkoMvpView {
         findViewById<Button>(R.id.button_selector).setOnClickListener(this)
     }
 
+    override fun initView() {
+
+    }
+
     override fun onClick(v: View?) {
-        if(v?.id == R.id.button_toast){
+        if (v?.id == R.id.button_toast) {
             showAlert()
-        }else if(v?.id == R.id.button_dialog){
+        } else if (v?.id == R.id.button_dialog) {
             progressDialog()
-        }else if(v?.id == R.id.button_selector){
+        } else if (v?.id == R.id.button_selector) {
             selector()
         }
     }
 
-    private fun showAlert(){
-       // alert(Appcompat, "Some text message").show()
-       /* alert {
-            customView {
-                editText()
-            }
-        }.show()*/
-        alert ("Hi, I'm Roy", "Have you tried turning it off and on again?") {
+    private fun showAlert() {
+        // alert(Appcompat, "Some text message").show()
+        /* alert {
+             customView {
+                 editText()
+             }
+         }.show()*/
+        alert("Hi, I'm Roy", "Have you tried turning it off and on again?") {
             yesButton { toast("Oh…") }
             noButton {}
         }.show()
     }
 
-    private fun progressDialog(){
+    private fun progressDialog() {
         val dialog = progressDialog(message = "Please wait a bit…", title = "Fetching data")
         dialog.progress = 20;
     }
 
-    private fun selector(){
+    private fun selector() {
         val countries = listOf("Russia", "USA", "Japan", "Australia")
-        selector("Where are you from?", countries, { listener, i->
+        selector("Where are you from?", countries, { listener, i ->
             toast("So you're living in ${countries[i]}, right?")
         })
     }
 
-    var listener =  object : DialogInterface {
+    var listener = object : DialogInterface {
         override fun dismiss() {
             toast("dismiss()")
         }

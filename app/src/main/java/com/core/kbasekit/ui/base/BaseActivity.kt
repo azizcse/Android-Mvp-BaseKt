@@ -2,17 +2,16 @@ package com.core.kbasekit.ui.base
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.View
-import com.core.kbasekit.BaseApp
-
 
 /*
 *  ****************************************************************************
 *  * Created by : Md. Azizul Islam on 12/14/2017 at 6:44 PM.
 *  * Email : azizul@w3engineers.com
 *  * 
-*  * Last edited by : Md. Azizul Islam on 12/14/2017.
+*  * Last edited by : Md. Imran Hossain on 04/20/2018.
 *  * 
 *  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>  
 *  ****************************************************************************
@@ -20,26 +19,32 @@ import com.core.kbasekit.BaseApp
 
 abstract class BaseActivity<V : MvpView, P : BasePresenter<V>> : AppCompatActivity(), MvpView, View.OnClickListener {
     abstract val getLayoutId: Int
+    abstract val getToolbarId: Int
     abstract val getMenuId: Int
     abstract val getMvpView: V
-    private val defaultValue : Int = 0
+    private val defaultValue: Int = 0
 
-    internal abstract fun getPresenter() : P
+    internal abstract fun getPresenter(): P
 
     protected var presenter: P? = null
     protected var mvpView: V? = null
-
 
     abstract fun startUi()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutId)
-        mvpView = getMvpView
-        presenter = getPresenter()
-        presenter?.onAttached(getMvpView)
-        startUi()
+        if (getLayoutId > defaultValue) {
+            setContentView(getLayoutId)
+            mvpView = getMvpView
+            presenter = getPresenter()
+            presenter?.onAttached(getMvpView)
 
+            if (getToolbarId > defaultValue) {
+                val toolbar: Toolbar = findViewById(getToolbarId)
+                setSupportActionBar(toolbar)
+            }
+        }
+        startUi()
     }
 
 
@@ -57,7 +62,7 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V>> : AppCompatActivi
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if(getMenuId > defaultValue){
+        if (getMenuId > defaultValue) {
             menuInflater.inflate(getMenuId, menu)
         }
         return true
