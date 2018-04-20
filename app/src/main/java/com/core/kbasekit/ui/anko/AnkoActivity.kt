@@ -27,7 +27,7 @@ class AnkoActivity : BaseActivity<AnkoMvpView, AnkoPresenter>(), AnkoMvpView {
         get() = R.id.toolbar
 
     override val getMenuId: Int
-        get() = 0
+        get() = R.menu.main_menu
 
     override val getMvpView: AnkoMvpView
         get() = this
@@ -43,7 +43,7 @@ class AnkoActivity : BaseActivity<AnkoMvpView, AnkoPresenter>(), AnkoMvpView {
     }
 
     override fun initView() {
-
+        supportActionBar?.setLogo(R.drawable.ic_sort)
     }
 
     override fun onClick(v: View?) {
@@ -91,6 +91,4 @@ class AnkoActivity : BaseActivity<AnkoMvpView, AnkoPresenter>(), AnkoMvpView {
         }
 
     }
-
-
 }

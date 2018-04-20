@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import com.core.kbasekit.R
@@ -65,26 +66,38 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        recyclerView.addItemDecoration(ItemDecorationUtil(ViewUtil.dpToPx( 6)))
+        recyclerView.addItemDecoration(ItemDecorationUtil(ViewUtil.dpToPx(4)))
 
         mainAdapter = MainAdapter(this)
         recyclerView.adapter = mainAdapter
     }
 
     override val getMenuId: Int
-        get() = -1
+        get() = R.menu.main_menu
 
     override fun onClick(v: View?) {
-        if (v?.id == R.id.insert_button) {
-            presenter?.insertUser()
-            //showAlert()
-        } else if (v?.id == R.id.event_bus) {
-            var event = BaseEvent()
-            event.name = "Event message"
-            BusProvider.getBus().post(event)
-        } else if (v?.id == R.id.delete) {
-            deleteUser()
+        when (v?.id) {
+            R.id.insert_button -> {
+                presenter?.insertUser()
+            }
+            R.id.event_bus -> {
+                var event = BaseEvent()
+                event.name = "Event message"
+                BusProvider.getBus().post(event)
+            }
+            R.id.delete -> {
+                deleteUser()
+            }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_settings -> {
+                Toaster.showShort("click : " + item.title)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun deleteUser() {
@@ -93,7 +106,6 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
     }
 
     override fun onUserFound(users: List<User>) {
-        // Toast.makeText(this,"User List = ${users.size}",Toast.LENGTH_LONG).show()
         mainAdapter.clear()
         mainAdapter.addItems(users)
     }
@@ -117,12 +129,12 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
      */
     @Subscribe
     fun receiveEventMessage(baseEvent: BaseEvent) {
-        Toaster.showLong("Name = "+baseEvent.name)
+        Toaster.showLong("Name = " + baseEvent.name)
     }
 
     @Subscribe
     fun receiveEventMessage2(baseEvent: BaseEvent) {
-        Toaster.showLong("Name 2 = "+baseEvent.name)
+        Toaster.showLong("Name 2 = " + baseEvent.name)
     }
 
     /**

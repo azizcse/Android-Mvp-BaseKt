@@ -14,6 +14,7 @@ import com.core.kbasekit.data.db.ex.Model
 import com.core.kbasekit.data.db.user.User
 import com.core.kbasekit.ui.base.BaseAdapter
 import com.core.kbasekit.ui.base.BaseViewHolder
+import java.util.*
 
 
 /*
@@ -26,9 +27,10 @@ import com.core.kbasekit.ui.base.BaseViewHolder
 *  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>  
 *  ****************************************************************************
 */
-open class MainAdapter : BaseAdapter<User>{
-    public var mContext : Context? = null
-    constructor(context: Context){
+open class MainAdapter : BaseAdapter<User> {
+    var mContext: Context? = null
+
+    constructor(context: Context) {
         mContext = context
     }
 
@@ -46,14 +48,16 @@ open class MainAdapter : BaseAdapter<User>{
         holder?.bind(user)
     }
 
-    private inner class SimpleViewHolder(itemView : View) : BaseViewHolder<User>(itemView){
-       var nameTv : TextView
+    private inner class SimpleViewHolder(itemView: View) : BaseViewHolder<User>(itemView) {
+        var nameTv: TextView
 
         init {
             nameTv = itemView.findViewById(R.id.name);
         }
+
         override fun bind(item: User) {
             nameTv.text = item.name;
+            nameTv.append("\n"+Calendar.getInstance().time)
         }
     }
 }
