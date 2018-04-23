@@ -9,7 +9,7 @@ import android.view.ViewGroup
 *  * Created by : Md. Azizul Islam on 12/13/2017 at 4:56 PM.
 *  * Email : azizul@w3engineers.com
 *  * 
-*  * Last edited by : Md. Azizul Islam on 12/13/2017.
+*  * Last edited by : Md. Imran Hossain on 04/23/2018.
 *  * 
 *  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>  
 *  ****************************************************************************
@@ -18,7 +18,7 @@ import android.view.ViewGroup
 open abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseViewHolder<T>>() {
 
     private val mItemList: ArrayList<T> = arrayListOf()
-
+    protected var mListener: ItemClickListener<T>? = null
 
     override fun getItemCount(): Int {
         return mItemList.size
@@ -74,13 +74,17 @@ open abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseViewHolder<T>>() {
         return null
     }
 
+    fun setClickLisener(listener: ItemClickListener<T>) {
+        mListener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<T> {
         return newViewHolder(parent, viewType)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>?, position: Int) {
-        //var item: T = getItem(position)
-        //holder?.bind(item)
+        var item: T = getItem(position)
+        holder?.bind(item)
     }
 
     abstract fun newViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<T>;

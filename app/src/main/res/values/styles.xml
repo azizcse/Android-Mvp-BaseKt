@@ -1,6 +1,10 @@
 <resources>
 
     <!-- Base application theme. -->
+    <style name="AppThemeSplash" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -26,6 +30,18 @@
     <!-- toolbar attrs-->
     <style name="ToolbarTitleText" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <!-- dialog attrs-->
+    <style name="DefaultAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--<item name="colorAccent">#009688</item>-->
+        <!-- Used for the buttons -->
+        <item name="colorAccent">#33d9df</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:lineSpacingExtra">8dp</item>
+
     </style>
 
 </resources>

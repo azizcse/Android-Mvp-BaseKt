@@ -11,6 +11,8 @@ import com.core.kbasekit.data.db.user.User
 import com.core.kbasekit.data.db.user.UserDao
 import com.core.kbasekit.util.LogKit
 import com.core.kbasekit.util.PermissionCheck
+import com.core.kbasekit.util.helper.SharedPref
+import com.core.kbasekit.util.helper.TimeUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -51,15 +53,8 @@ class MainPresenter : BasePresenter<MainMvpView> {
     fun insertUser() {
         Thread(Runnable {
             run {
-                val user = User(UUID.randomUUID().toString(), "Aziz", 27)
-                val user1 = User(UUID.randomUUID().toString(), "Azim", 32)
-                val user2 = User(UUID.randomUUID().toString(), "Paik", 34)
-
+                val user = User(UUID.randomUUID().toString(), "Aziz", TimeUtil.getCurrentTime())
                 userDao.insert(user)
-                userDao.insert(user1)
-                userDao.insert(user2)
-
-
             }
         }).start()
     }
@@ -68,7 +63,7 @@ class MainPresenter : BasePresenter<MainMvpView> {
     /**
      * Load data by Rx
      */
-    fun getUsers(){
+    fun getUsers() {
         getDisposable()?.add(userDao.getUsers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -84,7 +79,6 @@ class MainPresenter : BasePresenter<MainMvpView> {
     }
 
 
-
     fun deleteUsers(users: List<User>) {
         Thread(Runnable {
             userDao.delete(users)
@@ -92,15 +86,14 @@ class MainPresenter : BasePresenter<MainMvpView> {
     }
 
 
-
-    private fun delete(){
+    private fun delete() {
         getObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
     }
 
-    private fun getObservable(): Observable<Boolean>{
+    private fun getObservable(): Observable<Boolean> {
         return Observable.just(true).ambWith {
 
         }
@@ -162,7 +155,6 @@ class MainPresenter : BasePresenter<MainMvpView> {
         Thread.sleep(1000)
         Log.e("User_value", "message 2")
     }
-
 
 
 }

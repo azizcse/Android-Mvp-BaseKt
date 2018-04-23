@@ -20,9 +20,9 @@ import android.arch.persistence.room.PrimaryKey
 @Entity(tableName = "User")
 data class User(
         @PrimaryKey
-        var id : String,
-        var name : String,
-        var age : Int){
-        @Ignore
-        constructor():this("","",0)
-  }
+        var id: String,
+        var name: String,
+        var time: Long) {
+    @Ignore
+    constructor() : this("", "", 0)
+}

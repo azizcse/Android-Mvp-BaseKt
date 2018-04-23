@@ -19,17 +19,15 @@ import android.view.ViewGroup
 *  ****************************************************************************
 */
 
-abstract class BaseFragment<V : MvpView, P : BasePresenter<V>>: Fragment(), MvpView, OnClickListener {
+abstract class BaseFragment<V : MvpView, P : BasePresenter<V>> : Fragment(), MvpView, OnClickListener {
 
     abstract val getLayoutId: Int
     abstract val getMenuId: Int
-    abstract val getMvpView: V
-    private val defaultValue : Int = -1
+    private val defaultValue: Int = -1
 
-    internal abstract fun getPresenter() : P
+    internal abstract fun getPresenter(): P
 
     protected var presenter: P? = null
-    protected var mvpView: V? = null
 
 
     abstract fun startUi()
@@ -39,8 +37,7 @@ abstract class BaseFragment<V : MvpView, P : BasePresenter<V>>: Fragment(), MvpV
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater?.inflate(getLayoutId, container, false)
         presenter = getPresenter()
-        mvpView = getMvpView
-        presenter?.onAttached(mvpView!!)
+        presenter?.onAttached(this as V)
         startUi()
         return view
     }
@@ -51,6 +48,7 @@ abstract class BaseFragment<V : MvpView, P : BasePresenter<V>>: Fragment(), MvpV
         presenter?.onDetached()
         stopUi()
     }
+
     override fun onClick(v: View?) {
 
     }

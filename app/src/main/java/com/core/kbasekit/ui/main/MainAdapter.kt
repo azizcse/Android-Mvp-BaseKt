@@ -1,32 +1,29 @@
 package com.core.kbasekit.ui.main
 
 import android.content.Context
-import android.graphics.ColorSpace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.core.kbasekit.R
-import com.core.kbasekit.data.db.contact.Contact
-import com.core.kbasekit.data.db.ex.Model
 import com.core.kbasekit.data.db.user.User
 import com.core.kbasekit.ui.base.BaseAdapter
 import com.core.kbasekit.ui.base.BaseViewHolder
+import com.core.kbasekit.util.helper.SharedPref
+import com.core.kbasekit.util.helper.TimeUtil
 import java.util.*
-
 
 /*
 *  ****************************************************************************
 *  * Created by : Md. Azizul Islam on 12/14/2017 at 7:36 PM.
 *  * Email : azizul@w3engineers.com
 *  * 
-*  * Last edited by : Md. Azizul Islam on 12/14/2017.
+*  * Last edited by : Md. Md. Imran Hossain on 4/23/2018.
 *  * 
 *  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>  
 *  ****************************************************************************
 */
+
 open class MainAdapter : BaseAdapter<User> {
     var mContext: Context? = null
 
@@ -35,29 +32,32 @@ open class MainAdapter : BaseAdapter<User> {
     }
 
     override fun isEqual(leftItem: User, rightItem: User): Boolean {
-        return leftItem.id.equals(rightItem.id);
+        return leftItem.id.equals(rightItem.id)
     }
 
     override fun newViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<User> {
-        val view = LayoutInflater.from(mContext).inflate(R.layout.item_layout, parent, false)
+        val view = LayoutInflater.from(mContext).inflate(R.layout.item_view, parent, false)
         return SimpleViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder<User>?, position: Int) {
-        val user = getItem(position)
-        holder?.bind(user)
-    }
-
     private inner class SimpleViewHolder(itemView: View) : BaseViewHolder<User>(itemView) {
-        var nameTv: TextView
+
+        var name: TextView
+        var time: TextView
 
         init {
-            nameTv = itemView.findViewById(R.id.name);
+            name = itemView.findViewById(R.id.text_name)
+            time = itemView.findViewById(R.id.text_time)
+            setClickListener(itemView)
         }
 
         override fun bind(item: User) {
-            nameTv.text = item.name;
-            nameTv.append("\n"+Calendar.getInstance().time)
+            name.text = item.name
+            time.text = TimeUtil.getTimeAgo(item.time)
+        }
+
+        override fun onClick(view: View) {
+            mListener!!.onItemClick(view, getItem(adapterPosition))
         }
     }
 }

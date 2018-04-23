@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.core.kbasekit.ui.splash.SplashActivity">
+
+    <yanzhikai.textpath.SyncTextPathView
+        android:id="@+id/text_path"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:duration="3000"
+        app:pathStrokeColor="@color/colorAccent"
+        app:showPainterActually="true"
+        app:text="Right Mesh"
+        app:textInCenter="true"
+        app:textSize="70sp" />
+
+</android.support.constraint.ConstraintLayout>

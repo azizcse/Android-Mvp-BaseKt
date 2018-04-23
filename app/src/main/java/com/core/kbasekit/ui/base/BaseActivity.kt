@@ -11,7 +11,7 @@ import android.view.View
 *  * Created by : Md. Azizul Islam on 12/14/2017 at 6:44 PM.
 *  * Email : azizul@w3engineers.com
 *  * 
-*  * Last edited by : Md. Imran Hossain on 04/20/2018.
+*  * Last edited by : Md. Imran Hossain on 04/23/2018.
 *  * 
 *  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>  
 *  ****************************************************************************
@@ -21,13 +21,11 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V>> : AppCompatActivi
     abstract val getLayoutId: Int
     abstract val getToolbarId: Int
     abstract val getMenuId: Int
-    abstract val getMvpView: V
     private val defaultValue: Int = 0
 
     internal abstract fun getPresenter(): P
 
     protected var presenter: P? = null
-    protected var mvpView: V? = null
 
     abstract fun startUi()
 
@@ -35,14 +33,12 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V>> : AppCompatActivi
         super.onCreate(savedInstanceState)
         if (getLayoutId > defaultValue) {
             setContentView(getLayoutId)
-            mvpView = getMvpView
-            presenter = getPresenter()
-            presenter?.onAttached(getMvpView)
-
             if (getToolbarId > defaultValue) {
                 val toolbar: Toolbar = findViewById(getToolbarId)
                 setSupportActionBar(toolbar)
             }
+            presenter = getPresenter()
+            presenter?.onAttached(this as V)
         }
         startUi()
     }
@@ -71,6 +67,12 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V>> : AppCompatActivi
     override fun onResume() {
         super.onResume()
 
+    }
+
+    protected fun setClickListener(vararg views: View) {
+        for (view in views) {
+            view.setOnClickListener(this)
+        }
     }
 
 }

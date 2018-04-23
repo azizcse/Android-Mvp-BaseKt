@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.support.multidex.MultiDexApplication
 import com.core.kbasekit.data.local.DatabaseHelper
+import com.core.kbasekit.util.helper.SharedPref
 import com.core.kbasekit.util.helper.Toaster
 import com.core.kbasekit.util.helper.ViewUtil
 import dagger.internal.DaggerCollections
@@ -31,6 +32,7 @@ class BaseApp : MultiDexApplication() {
        // mApplicationComponent?.inject(this)
         Toaster.init(this)
         ViewUtil.init(this)
+        SharedPref.init(this)
         DatabaseHelper.getInstance(applicationContext)
     }
 }

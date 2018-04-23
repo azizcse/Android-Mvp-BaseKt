@@ -10,8 +10,10 @@ import android.view.View
 import android.widget.Button
 import com.core.kbasekit.R
 import com.core.kbasekit.data.db.user.User
-import com.core.kbasekit.event.BaseEvent
+import com.core.kbasekit.data.model.BaseEvent
 import com.core.kbasekit.ui.base.BaseActivity
+import com.core.kbasekit.ui.base.ItemClickListener
+import com.core.kbasekit.util.helper.DialogUtil
 import com.core.kbasekit.util.helper.ItemDecorationUtil
 import com.core.kbasekit.util.helper.Toaster
 import com.core.kbasekit.util.helper.ViewUtil
@@ -23,13 +25,14 @@ import com.squareup.otto.Subscribe
 *  * Created by : Md. Azizul Islam on 1/2/2018 at 1:19 PM.
 *  * Email : azizul@w3engineers.com
 *  * 
-*  * Last edited by : Md. Imran Hossain on 4/20/2018.
+*  * Last edited by : Md. Imran Hossain on 4/23/2018.
 *  * 
 *  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>  
 *  ****************************************************************************
 */
 
-class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
+class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView,
+        ItemClickListener<User>, DialogUtil.DialogListener {
 
     lateinit var insertButton: Button
     lateinit var eventBusButton: Button
@@ -45,20 +48,17 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
         get() = R.layout.activity_main
 
     override val getToolbarId: Int
-        get() = -1
-
-    override val getMvpView: MainMvpView
-        get() = this
+        get() = R.id.toolbar
 
     override fun startUi() {
-        insertButton.setOnClickListener(this)
-        eventBusButton.setOnClickListener(this)
-        deleteButton.setOnClickListener(this)
+        setClickListener(insertButton, eventBusButton, deleteButton)
 
         mainAdapter.notifyDataSetChanged()
     }
 
     override fun initView() {
+        supportActionBar!!.setIcon(R.drawable.ic_menu)
+
         insertButton = findViewById(R.id.insert_button)
         eventBusButton = findViewById(R.id.event_bus)
         deleteButton = findViewById(R.id.delete)
@@ -69,6 +69,7 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
         recyclerView.addItemDecoration(ItemDecorationUtil(ViewUtil.dpToPx(4)))
 
         mainAdapter = MainAdapter(this)
+        mainAdapter.setClickLisener(this)
         recyclerView.adapter = mainAdapter
     }
 
@@ -86,7 +87,8 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
                 BusProvider.getBus().post(event)
             }
             R.id.delete -> {
-                deleteUser()
+                DialogUtil.show(this, "Delete", "Are you sure to delete all user?",
+                        "Delete", "No", this, 1)
             }
         }
     }
@@ -146,4 +148,20 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView {
         }
     }
 
+    override fun onClickPositive(flag: Int) {
+        when (flag) {
+            1 -> deleteUser()
+        }
+    }
+
+    override fun onCancel() {
+
+    }
+
+    override fun onClickNegative(flag: Int) {
+    }
+
+    override fun onItemClick(view: View, item: User) {
+        Toaster.showShort(item.name)
+    }
 }

@@ -1,4 +1,4 @@
-package com.core.kbasekit.event
+package com.core.kbasekit.data.model
 
 import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
