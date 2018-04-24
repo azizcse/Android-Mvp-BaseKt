@@ -7,10 +7,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import com.core.kbasekit.R
 import com.core.kbasekit.data.db.user.User
 import com.core.kbasekit.data.model.BaseEvent
+import com.core.kbasekit.databinding.ActivityMainBinding
+import com.core.kbasekit.ui.anko.AnkoActivity
 import com.core.kbasekit.ui.base.BaseActivity
 import com.core.kbasekit.ui.base.ItemClickListener
 import com.core.kbasekit.util.helper.DialogUtil
@@ -34,11 +35,9 @@ import com.squareup.otto.Subscribe
 class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView,
         ItemClickListener<User>, DialogUtil.DialogListener {
 
-    lateinit var insertButton: Button
-    lateinit var eventBusButton: Button
-    lateinit var deleteButton: Button
     lateinit var recyclerView: RecyclerView
     lateinit var mainAdapter: MainAdapter
+    lateinit var mBinding: ActivityMainBinding
 
     override fun getPresenter(): MainPresenter {
         return MainPresenter(this)
@@ -51,7 +50,9 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView,
         get() = R.id.toolbar
 
     override fun startUi() {
-        setClickListener(insertButton, eventBusButton, deleteButton)
+
+        mBinding = getViewDataBinding() as ActivityMainBinding
+        setClickListener(mBinding.insertButton, mBinding.eventBus, mBinding.delete)
 
         mainAdapter.notifyDataSetChanged()
     }
@@ -59,9 +60,6 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView,
     override fun initView() {
         supportActionBar!!.setIcon(R.drawable.ic_menu)
 
-        insertButton = findViewById(R.id.insert_button)
-        eventBusButton = findViewById(R.id.event_bus)
-        deleteButton = findViewById(R.id.delete)
         recyclerView = findViewById(R.id.recyclerView)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -96,7 +94,8 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView,
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_settings -> {
-                Toaster.showShort("click : " + item.title)
+                //Toaster.showShort("click : " + item.title)
+                startActivity(Intent(this, AnkoActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

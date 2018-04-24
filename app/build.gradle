@@ -24,6 +24,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 kapt {
     generateStubs = true
@@ -83,8 +86,10 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$arch_version"
     // event bus
     compile 'com.squareup:otto:1.3.8'
-    // text path vieew
+    // text path view
     compile 'com.yanzhikai:TextPathView:0.1.2'
+    // data binding version must be same as gradle version
+    kapt 'com.android.databinding:compiler:3.0.1'
 
 }
 

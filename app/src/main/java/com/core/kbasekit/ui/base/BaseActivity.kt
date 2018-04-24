@@ -1,5 +1,7 @@
 package com.core.kbasekit.ui.base
 
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -11,7 +13,7 @@ import android.view.View
 *  * Created by : Md. Azizul Islam on 12/14/2017 at 6:44 PM.
 *  * Email : azizul@w3engineers.com
 *  * 
-*  * Last edited by : Md. Imran Hossain on 04/23/2018.
+*  * Last edited by : Md. Imran Hossain on 04/24/2018.
 *  * 
 *  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>  
 *  ****************************************************************************
@@ -26,13 +28,14 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V>> : AppCompatActivi
     internal abstract fun getPresenter(): P
 
     protected var presenter: P? = null
+    private var mDataBinding: ViewDataBinding? = null
 
     abstract fun startUi()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (getLayoutId > defaultValue) {
-            setContentView(getLayoutId)
+            updateUI(getLayoutId)
             if (getToolbarId > defaultValue) {
                 val toolbar: Toolbar = findViewById(getToolbarId)
                 setSupportActionBar(toolbar)
@@ -69,9 +72,24 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V>> : AppCompatActivi
 
     }
 
+    protected fun getViewDataBinding(): ViewDataBinding? {
+        return mDataBinding
+    }
+
     protected fun setClickListener(vararg views: View) {
         for (view in views) {
             view.setOnClickListener(this)
+        }
+    }
+
+    private fun updateUI(layoutId: Int) {
+        try {
+            mDataBinding = DataBindingUtil.setContentView(this, layoutId)
+        } catch (e: Exception) {
+
+        }
+        if (mDataBinding == null) {
+            setContentView(layoutId)
         }
     }
 

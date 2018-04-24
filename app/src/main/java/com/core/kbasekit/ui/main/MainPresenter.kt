@@ -1,17 +1,12 @@
 package com.core.kbasekit.ui.main
 
-import android.Manifest
 import android.content.Context
 import android.util.Log
 import com.core.kbasekit.ui.base.BasePresenter
-import android.provider.CallLog
 import com.core.kbasekit.data.local.DatabaseHelper
-import com.core.kbasekit.data.db.contact.Contact
 import com.core.kbasekit.data.db.user.User
 import com.core.kbasekit.data.db.user.UserDao
 import com.core.kbasekit.util.LogKit
-import com.core.kbasekit.util.PermissionCheck
-import com.core.kbasekit.util.helper.SharedPref
 import com.core.kbasekit.util.helper.TimeUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -34,6 +29,7 @@ import kotlin.collections.ArrayList
 class MainPresenter : BasePresenter<MainMvpView> {
     lateinit var context: Context
     lateinit var userDao: UserDao
+    var list: ArrayList<User> = arrayListOf()
 
     constructor(context: Context) {
         this.context = context

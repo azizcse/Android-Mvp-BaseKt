@@ -2,8 +2,8 @@ package com.core.kbasekit.ui.anko
 
 import android.content.DialogInterface
 import android.view.View
-import android.widget.Button
 import com.core.kbasekit.R
+import com.core.kbasekit.databinding.ActivityAnkoBinding
 import com.core.kbasekit.ui.base.BaseActivity
 import org.jetbrains.anko.*
 
@@ -12,13 +12,14 @@ import org.jetbrains.anko.*
 *  * Created by : Md. Azizul Islam on 1/2/2018 at 1:19 PM.
 *  * Email : azizul@w3engineers.com
 *  *
-*  * Last edited by : Md. Imran Hossain on 4/20/2018.
+*  * Last edited by : Md. Imran Hossain on 4/24/2018.
 *  *
 *  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>
 *  ****************************************************************************
 */
 
 class AnkoActivity : BaseActivity<AnkoMvpView, AnkoPresenter>(), AnkoMvpView {
+    lateinit var mBinding: ActivityAnkoBinding
 
     override val getLayoutId: Int
         get() = R.layout.activity_anko
@@ -34,9 +35,8 @@ class AnkoActivity : BaseActivity<AnkoMvpView, AnkoPresenter>(), AnkoMvpView {
     }
 
     override fun startUi() {
-        findViewById<Button>(R.id.button_toast).setOnClickListener(this)
-        findViewById<Button>(R.id.button_dialog).setOnClickListener(this)
-        findViewById<Button>(R.id.button_selector).setOnClickListener(this)
+        mBinding = getViewDataBinding() as ActivityAnkoBinding
+        setClickListener(mBinding.buttonToast, mBinding.buttonDialog, mBinding.buttonSelector)
     }
 
     override fun initView() {
