@@ -4,21 +4,18 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.core.kbasekit.R
 import com.core.kbasekit.data.db.user.User
+import com.core.kbasekit.databinding.ItemViewBinding
 import com.core.kbasekit.ui.base.BaseAdapter
 import com.core.kbasekit.ui.base.BaseViewHolder
-import com.core.kbasekit.util.helper.SharedPref
 import com.core.kbasekit.util.helper.TimeUtil
-import java.util.*
 
 /*
 *  ****************************************************************************
 *  * Created by : Md. Azizul Islam on 12/14/2017 at 7:36 PM.
 *  * Email : azizul@w3engineers.com
 *  * 
-*  * Last edited by : Md. Md. Imran Hossain on 4/23/2018.
+*  * Last edited by : Md. Md. Imran Hossain on 4/24/2018.
 *  * 
 *  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>  
 *  ****************************************************************************
@@ -36,28 +33,30 @@ open class MainAdapter : BaseAdapter<User> {
     }
 
     override fun newViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<User> {
-        val view = LayoutInflater.from(mContext).inflate(R.layout.item_view, parent, false)
-        return SimpleViewHolder(view)
+        val layoutInflater = LayoutInflater.from(parent!!.context)
+        var itemHolder = ItemViewBinding.inflate(layoutInflater, parent, false)
+        return SimpleViewHolder(itemHolder)
     }
 
-    private inner class SimpleViewHolder(itemView: View) : BaseViewHolder<User>(itemView) {
-
-        var name: TextView
-        var time: TextView
+    private inner class SimpleViewHolder(itemView: ItemViewBinding) : BaseViewHolder<User>(itemView.root) {
+        var binding: ItemViewBinding
 
         init {
-            name = itemView.findViewById(R.id.text_name)
-            time = itemView.findViewById(R.id.text_time)
-            setClickListener(itemView)
+            this.binding = itemView
+            setClickListener(binding.layoutContent)
         }
 
         override fun bind(item: User) {
-            name.text = item.name
-            time.text = TimeUtil.getTimeAgo(item.time)
+            binding.textName.text = item.name
+            binding.textTime.text = TimeUtil.getTimeAgo(item.time)
         }
 
         override fun onClick(view: View) {
-            mListener!!.onItemClick(view, getItem(adapterPosition))
+            when (view) {
+                binding.layoutContent -> {
+                    mListener!!.onItemClick(view, getItem(adapterPosition))
+                }
+            }
         }
     }
 }

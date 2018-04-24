@@ -87,6 +87,6 @@ open abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseViewHolder<T>>() {
         holder?.bind(item)
     }
 
-    abstract fun newViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<T>;
+    abstract fun newViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<T>
     abstract fun isEqual(leftItem: T, rightItem: T): Boolean
 }

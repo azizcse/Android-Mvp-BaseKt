@@ -86,7 +86,7 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V>> : AppCompatActivi
         try {
             mDataBinding = DataBindingUtil.setContentView(this, layoutId)
         } catch (e: Exception) {
-
+            e.printStackTrace()
         }
         if (mDataBinding == null) {
             setContentView(layoutId)

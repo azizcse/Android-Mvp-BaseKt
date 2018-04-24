@@ -23,8 +23,8 @@ abstract class BasePresenter<V : MvpView> : Presenter<V> {
     }
 
     override fun onAttached(mvpView: V) {
-        this.mvpView = mvpView;
-        mvpView.initView()
+        this.mvpView = mvpView
+        this.mvpView!!.initView()
     }
 
     override fun onDetached() {

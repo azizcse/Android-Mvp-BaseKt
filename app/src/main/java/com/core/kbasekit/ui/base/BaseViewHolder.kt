@@ -16,6 +16,7 @@ import android.view.View
 */
 
 open abstract class BaseViewHolder<T>(itemView: View?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+
     open abstract fun bind(item: T)
     protected fun setClickListener(vararg views: View) {
         for (view in views) {
