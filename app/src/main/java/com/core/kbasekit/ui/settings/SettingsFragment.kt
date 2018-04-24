@@ -1,8 +1,11 @@
 package com.core.kbasekit.ui.settings
 
+import android.content.Intent
+import android.view.MenuItem
 import android.view.View
 import com.core.kbasekit.R
 import com.core.kbasekit.databinding.FragmentSettingsBinding
+import com.core.kbasekit.ui.anko.AnkoActivity
 import com.core.kbasekit.ui.base.BaseFragment
 
 /*
@@ -45,5 +48,15 @@ class SettingsFragment : BaseFragment<SettingsMvpView, SettingsPresenter>(), Set
 
     override fun onClick(p0: View?) {
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_settings -> {
+                //Toaster.showShort("click : " + item.title)
+                startActivity(Intent(activity, AnkoActivity::class.java))
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

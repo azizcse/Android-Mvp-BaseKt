@@ -1,6 +1,5 @@
 package com.core.kbasekit.ui.base
 
-import android.app.Activity
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
