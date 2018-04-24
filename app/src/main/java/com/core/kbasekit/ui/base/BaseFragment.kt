@@ -1,12 +1,11 @@
 package com.core.kbasekit.ui.base
 
+import android.app.Activity
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.View.OnClickListener
-import android.view.ViewGroup
-
+import android.view.*
 
 /*
 *  ****************************************************************************
@@ -19,29 +18,52 @@ import android.view.ViewGroup
 *  ****************************************************************************
 */
 
-abstract class BaseFragment<V : MvpView, P : BasePresenter<V>> : Fragment(), MvpView, OnClickListener {
+abstract class BaseFragment<V : MvpView, P : BasePresenter<V>> : Fragment(), MvpView, View.OnClickListener {
 
     abstract val getLayoutId: Int
     abstract val getMenuId: Int
-    private val defaultValue: Int = -1
+    private val mDefaultValue: Int = 0
 
     internal abstract fun getPresenter(): P
 
     protected var presenter: P? = null
-
+    private var mViewDataBinding: ViewDataBinding? = null
 
     abstract fun startUi()
-
     abstract fun stopUi()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (getMenuId > mDefaultValue) {
+            setHasOptionsMenu(true)
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater?.inflate(getLayoutId, container, false)
+        if (getLayoutId <= mDefaultValue) {
+            return super.onCreateView(inflater, container, savedInstanceState)
+        }
+        mViewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId, container, false)
+        if (mViewDataBinding == null) {
+            var view = inflater!!.inflate(getLayoutId, container, false)
+            return view
+        }
+        return this.mViewDataBinding!!.root
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         presenter = getPresenter()
         presenter?.onAttached(this as V)
         startUi()
-        return view
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        if (getMenuId > mDefaultValue) {
+            inflater!!.inflate(getMenuId, menu)
+            super.onCreateOptionsMenu(menu, inflater)
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -49,7 +71,13 @@ abstract class BaseFragment<V : MvpView, P : BasePresenter<V>> : Fragment(), Mvp
         stopUi()
     }
 
-    override fun onClick(v: View?) {
+    protected fun getViewDataBinding(): ViewDataBinding? {
+        return mViewDataBinding
+    }
 
+    protected fun setClickListener(vararg views: View) {
+        for (view in views) {
+            view.setOnClickListener(this)
+        }
     }
 }

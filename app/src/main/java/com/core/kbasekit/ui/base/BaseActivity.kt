@@ -3,6 +3,7 @@ package com.core.kbasekit.ui.base
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
@@ -29,8 +30,10 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V>> : AppCompatActivi
 
     protected var presenter: P? = null
     private var mDataBinding: ViewDataBinding? = null
+    protected var mBaseCurrentFragment: Fragment? = null
 
     abstract fun startUi()
+    abstract fun stoptUi()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +57,7 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V>> : AppCompatActivi
     override fun onDestroy() {
         super.onDestroy()
         presenter?.onDetached()
+        stoptUi()
     }
 
     override fun onBackPressed() {
@@ -80,6 +84,26 @@ abstract class BaseActivity<V : MvpView, P : BasePresenter<V>> : AppCompatActivi
         for (view in views) {
             view.setOnClickListener(this)
         }
+    }
+
+    protected fun commitFragment(viewId: Int, fragment: Fragment) {
+        supportFragmentManager
+                .beginTransaction()
+                .replace(viewId, fragment, fragment.javaClass.name)
+                .commit()
+
+        setCurrentFragment(fragment)
+    }
+
+    /*
+    * Get current running fragment
+    * */
+    protected fun getCurrentFragment(): Fragment? {
+        return mBaseCurrentFragment
+    }
+
+    private fun setCurrentFragment(fragment: Fragment) {
+        this.mBaseCurrentFragment = fragment
     }
 
     private fun updateUI(layoutId: Int) {

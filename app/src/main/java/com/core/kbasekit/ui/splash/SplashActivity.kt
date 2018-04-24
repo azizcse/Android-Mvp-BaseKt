@@ -52,6 +52,10 @@ class SplashActivity : BaseActivity<SplashMvpView, SplashPresenter>(), SplashMvp
         mTextMessage = findViewById(R.id.text_path)
     }
 
+    override fun stoptUi() {
+
+    }
+
     override fun onClick(p0: View?) {
 
     }

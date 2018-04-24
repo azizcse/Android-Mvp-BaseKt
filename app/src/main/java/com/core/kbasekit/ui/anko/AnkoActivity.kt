@@ -43,6 +43,10 @@ class AnkoActivity : BaseActivity<AnkoMvpView, AnkoPresenter>(), AnkoMvpView {
         supportActionBar?.setLogo(R.drawable.ic_menu)
     }
 
+    override fun stoptUi() {
+
+    }
+
     override fun onClick(v: View?) {
         if (v?.id == R.id.button_toast) {
             showAlert()

@@ -71,6 +71,10 @@ class MainActivity : BaseActivity<MainMvpView, MainPresenter>(), MainMvpView,
         recyclerView.adapter = mainAdapter
     }
 
+    override fun stoptUi() {
+        
+    }
+
     override val getMenuId: Int
         get() = R.menu.main_menu
 
